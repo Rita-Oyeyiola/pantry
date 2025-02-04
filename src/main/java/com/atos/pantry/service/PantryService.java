@@ -6,30 +6,33 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
 
 @Service
 public class PantryService {
-    @Value("${pantry.api.path}")
-    private String pantryApiPath;
-
-    @Value("${pantry.id}")
-    private String pantryId;
-
-    private final RestTemplate restTemplate;
+    private final WebClient webClient;
 
     @Autowired
-    public PantryService(RestTemplateBuilder restTemplateBuilder) {
-        this.restTemplate = restTemplateBuilder.build();
+    public PantryService(WebClient webClient) {
+        this.webClient = webClient;
     }
 
-    public PantryDetails getPantryDetails() {
-        String url = pantryApiPath + "/pantry/" + pantryId;
-        return restTemplate.getForObject(url, PantryDetails.class);
+    public Mono<PantryDetails> getPantryDetails(String pantryId) {
+        return webClient.get()
+                .uri("/pantry/" + pantryId)
+                .retrieve()
+                .bodyToMono(PantryDetails.class);
+
     }
 
-    public void updatePantryDetails(PantryDetails pantryDetails) {
-        String url = pantryApiPath + "/pantry/" + pantryId;
-        restTemplate.put(url, pantryDetails);
+    public Mono<PantryDetails> updatePantryDetails(String pantryId, PantryDetails pantryDetails) {
+        return webClient.put()
+                .uri("/pantry/" + pantryId)
+                .bodyValue(pantryDetails)
+                .retrieve()
+                .bodyToMono(PantryDetails.class);
     }
 
 }
