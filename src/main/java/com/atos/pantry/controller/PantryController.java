@@ -14,12 +14,12 @@ public class PantryController {
         this.pantryService = pantryService;
     }
 
-    @GetMapping("{/pantryId}")
+    @GetMapping("{pantryId}")
     public Mono<PantryDetails> getPantryDetails(@PathVariable String pantryId) {
         return pantryService.getPantryDetails(pantryId);
     }
 
-    @PutMapping("{/pantryId}")
+    @PutMapping("{pantryId}")
     public Mono<PantryDetails> updatePantryDetails(@PathVariable String pantryId, @RequestBody PantryDetails pantryDetails) {
         return pantryService.updatePantryDetails(pantryId, pantryDetails);
     }

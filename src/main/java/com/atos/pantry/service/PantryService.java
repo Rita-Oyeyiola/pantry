@@ -1,5 +1,7 @@
 package com.atos.pantry.service;
 
+import com.atos.pantry.configuration.PantryConfig;
+import com.atos.pantry.controller.PantryController;
 import com.atos.pantry.model.PantryDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,15 +14,15 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class PantryService {
-    private final WebClient webClient;
+    private final PantryConfig pantryConfig;
 
     @Autowired
-    public PantryService(WebClient webClient) {
-        this.webClient = webClient;
+    public PantryService(WebClient webClient, PantryConfig pantryConfig) {
+        this.pantryConfig = pantryConfig;
     }
 
     public Mono<PantryDetails> getPantryDetails(String pantryId) {
-        return webClient.get()
+        return pantryConfig.webClient().get()
                 .uri("/pantry/" + pantryId)
                 .retrieve()
                 .bodyToMono(PantryDetails.class);
@@ -28,7 +30,7 @@ public class PantryService {
     }
 
     public Mono<PantryDetails> updatePantryDetails(String pantryId, PantryDetails pantryDetails) {
-        return webClient.put()
+        return pantryConfig.webClient().put()
                 .uri("/pantry/" + pantryId)
                 .bodyValue(pantryDetails)
                 .retrieve()

@@ -2,11 +2,10 @@ package com.atos.pantry.model;
 
 import java.util.List;
 
-
 public class PantryDetails {
     private String name;
     private String description;
-    private List<Basket> baskets;
+    private String id;
 
     public String getName() {
         return name;
@@ -24,11 +23,11 @@ public class PantryDetails {
         this.description = description;
     }
 
-    public List<Basket> getBaskets() {
-        return baskets;
+    public String getId() {
+        return id;
     }
 
-    public void setBaskets(List<Basket> baskets) {
-        this.baskets = baskets;
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -1,22 +1,12 @@
 package com.atos.pantry.model;
 
+import lombok.Data;
+
+@Data
 public class Basket {
     private String name;
-    private int ttl;
+    private String id;
+    private String pantryId;
+    private String contents;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getTtl() {
-        return ttl;
-    }
-
-    public void setTtl(int ttl) {
-        this.ttl = ttl;
-    }
 }
